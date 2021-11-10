@@ -1,24 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
+import Home from './pages/home/home';
+import Details from './pages/details/details';
+import FourZeroFour from './pages/fourZeroFour/fourZeroFour';
+import Header from './components/header/header';
+import { usePersistentStorage } from './customHooks/usePersistentStorage';
 
 function App() {
+
+  const data = {
+    user: 'Cristi',
+    info: {
+      work: 'developer',
+      sda: 'trainner',
+      hobbies: ['music', 'javascript', 'python', 'books', 'electronics']
+    }
+  };
+
+  const res = usePersistentStorage('get', 'test', data, 'local');
+  console.log(res)
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <Header />
+      <Router>
+        <Switch>
+          <Route exact path='/'>
+            <Home />
+          </Route>
+          <Route exact path='/details/:id'>
+            <Details />
+          </Route>
+          <Route>
+            <FourZeroFour/>
+          </Route>
+        </Switch>
+      </Router >
+    </div >
   );
 }
 
